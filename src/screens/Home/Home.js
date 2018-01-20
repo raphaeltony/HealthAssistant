@@ -18,6 +18,16 @@ import {
 import Record from "../../components/record/record";
 
 export default class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: "Hey there!"
+    };
+  }
+
+  handleQuery = () => {
+    console.log("Button pressed");
+  };
   render() {
     return (
       <Container>
@@ -26,15 +36,7 @@ export default class Home extends Component {
         </Header>
 
         <Content padder style={{ flex: 1 }}>
-          <Record align="flex-start" />
-          <Record />
-          <Record />
-          <Record />
-          <Record />
-          <Record align="flex-start" />
-          <Record align="flex-start" />
-          <Record />
-          <Record />
+          <Record text={this.state.text} align="flex-start" />
         </Content>
 
         <Footer
@@ -48,7 +50,7 @@ export default class Home extends Component {
           <Item style={{ flex: 1 }}>
             <Input placeholder="How are you today ?" />
           </Item>
-          <Button transparent>
+          <Button transparent onPress={this.handleQuery}>
             <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
           </Button>
         </Footer>
