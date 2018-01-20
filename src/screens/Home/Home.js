@@ -13,7 +13,7 @@ import {
   Left,
   Right,
   Content,
-  Textarea
+  Footer
 } from "native-base";
 import Record from "../../components/record/record";
 
@@ -21,24 +21,37 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ flexDirection: "column" }}>
-          <Title>Welcome</Title>
+        <Header style={{ flexDirection: "column", backgroundColor: "#66b9bf" }}>
+          <Title style={{ fontSize: 22 }}>Welcome</Title>
         </Header>
 
         <Content padder style={{ flex: 1 }}>
-          <View style={{ flexDirection: "row", flex: 1 }}>
-            <Item rounded style={{ flex: 1 }}>
-              <Input placeholder="How are you today ?" />
-            </Item>
-            <Button transparent>
-              <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
-            </Button>
-          </View>
-
-          <Record align="flex-end" />
+          <Record align="flex-start" />
           <Record />
-          <Record align="flex-end" />
+          <Record />
+          <Record />
+          <Record />
+          <Record align="flex-start" />
+          <Record align="flex-start" />
+          <Record />
+          <Record />
         </Content>
+
+        <Footer
+          style={{
+            flexDirection: "row",
+            height: 60,
+            padding: 5,
+            backgroundColor: "#66b9bf"
+          }}
+        >
+          <Item style={{ flex: 1 }}>
+            <Input placeholder="How are you today ?" />
+          </Item>
+          <Button transparent>
+            <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
+          </Button>
+        </Footer>
       </Container>
     );
   }

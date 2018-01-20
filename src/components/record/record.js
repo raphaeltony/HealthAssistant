@@ -3,17 +3,16 @@ import { View, Text } from "native-base";
 import RecordStyle from "./styles";
 
 const Record = props => {
-  const { align } = props;
-  let styles = RecordStyle.getSheet(align);
+  const { align, color } = props;
+  let styles = RecordStyle.getSheet(align, color);
 
   return (
     <View padder>
       <View style={styles.record}>
-        <Text>
+        <Text style={styles.text}>
           Sample Record Hey there I'm typing a lot !!!!!! Whastapp Ok Ill try .
           Yeah !!
         </Text>
-        <Text>Sample Record2</Text>
       </View>
     </View>
   );
