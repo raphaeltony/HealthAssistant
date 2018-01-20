@@ -16,17 +16,20 @@ import {
   Footer
 } from "native-base";
 import Record from "../../components/record/record";
+import { FlatList } from "react-native";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "Hey there!"
+      text: "Hey there!",
+      data: [{ text: "Hey there!", align: "flex-start" }]
     };
   }
 
   handleQuery = () => {
     console.log("Button pressed");
+    this.setState({ data: this.state.data.concat({ text: this.state.text }) });
   };
   render() {
     return (
@@ -36,7 +39,13 @@ export default class Home extends Component {
         </Header>
 
         <Content padder style={{ flex: 1 }}>
-          <Record text={this.state.text} align="flex-start" />
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <Record text={item.text} align={item.align} />
+            )}
+            keyExtractor={item => item.text}
+          />
         </Content>
 
         <Footer
@@ -48,7 +57,10 @@ export default class Home extends Component {
           }}
         >
           <Item style={{ flex: 1 }}>
-            <Input placeholder="How are you today ?" />
+            <Input
+              placeholder="How are you today ?"
+              onChangeText={text => this.setState({ text })}
+            />
           </Item>
           <Button transparent onPress={this.handleQuery}>
             <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
