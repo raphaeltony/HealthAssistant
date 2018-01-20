@@ -4,6 +4,7 @@ import {
   Header,
   Body,
   Title,
+  Text,
   Item,
   Icon,
   Input,
@@ -11,19 +12,21 @@ import {
   Button,
   Left,
   Right,
-  Content
+  Content,
+  Textarea
 } from "native-base";
+import Record from "../../components/record/record";
 
 export default class Home extends Component {
   render() {
     return (
       <Container>
-        <Header searchBar rounded style={{ flexDirection: "column" }}>
+        <Header style={{ flexDirection: "column" }}>
           <Title>Welcome</Title>
         </Header>
 
-        <Content style={{ flex: 1 }}>
-          <View style={{ flexDirection: "row", flex: 1, margin: 10 }}>
+        <Content padder style={{ flex: 1 }}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
             <Item rounded style={{ flex: 1 }}>
               <Input placeholder="How are you today ?" />
             </Item>
@@ -31,6 +34,10 @@ export default class Home extends Component {
               <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
             </Button>
           </View>
+
+          <Record />
+          <Record />
+          <Record />
         </Content>
       </Container>
     );
