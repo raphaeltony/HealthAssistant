@@ -35,9 +35,9 @@ export default class Home extends Component {
             </Button>
           </View>
 
+          <Record align="flex-end" />
           <Record />
-          <Record />
-          <Record />
+          <Record align="flex-end" />
         </Content>
       </Container>
     );
