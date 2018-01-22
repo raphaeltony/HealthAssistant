@@ -16,25 +16,38 @@ import {
   Footer
 } from "native-base";
 import Record from "../../components/record/record";
-import { FlatList } from "react-native";
+import { FlatList, StatusBar } from "react-native";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "Hey there!",
-      data: [{ text: "Hey there!", align: "flex-start" }]
+      text: "",
+      data: [{ text: "Hey there!", align: "flex-start" }],
+      btnDisabled: false
     };
   }
 
   handleQuery = () => {
     console.log("Button pressed");
-    this.setState({ data: this.state.data.concat({ text: this.state.text }) });
+    this.setState({
+      data: this.state.data.concat({ text: this.state.text }),
+      text: "",
+      btnEnabled: false
+    });
+
+    {
+      /* Send request, fetch response, Push response to data array*/
+    }
+
+    this.setState({ btnEnabled: true });
   };
+
   render() {
     return (
       <Container>
-        <Header style={{ flexDirection: "column", backgroundColor: "#66b9bf" }}>
+        <StatusBar transparent={false} barStyle="light-content" />
+        <Header style={{ flexDirection: "column", backgroundColor: "#063852" }}>
           <Title style={{ fontSize: 22 }}>Welcome</Title>
         </Header>
 
@@ -53,16 +66,21 @@ export default class Home extends Component {
             flexDirection: "row",
             height: 60,
             padding: 5,
-            backgroundColor: "#66b9bf"
+            backgroundColor: "white"
           }}
         >
           <Item style={{ flex: 1 }}>
             <Input
               placeholder="How are you today ?"
               onChangeText={text => this.setState({ text })}
+              value={this.state.text}
             />
           </Item>
-          <Button transparent onPress={this.handleQuery}>
+          <Button
+            transparent
+            onPress={this.handleQuery}
+            disabled={this.state.btnDisabled}
+          >
             <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
           </Button>
         </Footer>
