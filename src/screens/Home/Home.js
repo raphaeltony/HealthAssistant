@@ -17,6 +17,7 @@ import {
 } from "native-base";
 import Record from "../../components/record/record";
 import { FlatList, StatusBar } from "react-native";
+import GetRes from "./getResponse";
 
 export default class Home extends Component {
   constructor(props) {
@@ -32,15 +33,20 @@ export default class Home extends Component {
     console.log("Button pressed");
     this.setState({
       data: this.state.data.concat({ text: this.state.text }),
-      text: "",
       btnEnabled: false
     });
 
     {
       /* Send request, fetch response, Push response to data array*/
     }
+    this.setState({
+      data: this.state.data.concat({
+        text: GetRes.getResponse(this.state.text),
+        align: "flex-start"
+      })
+    });
 
-    this.setState({ btnEnabled: true });
+    this.setState({ text: "", btnEnabled: true });
   };
 
   render() {
