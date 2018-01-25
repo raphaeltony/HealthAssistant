@@ -32,16 +32,12 @@ export default class Home extends Component {
   handleQuery = () => {
     console.log("Button pressed");
     this.setState({
-      data: this.state.data.concat({ text: this.state.text }),
+      data: this.state.data.push({ text: this.state.text }),
       btnDisabled: true
     });
 
-    this.setState({
-      data: this.state.data.concat({
-        text: GetRes.getResponse(this.state.text),
-        align: "flex-start"
-      })
-    });
+    let resText = GetRes.getResponse(this.state.text);
+    this.setState({ data: this.state.data.concat({ text: resText }) });
 
     this.setState({ text: "", btnDisabled: false });
   };
