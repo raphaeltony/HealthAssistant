@@ -33,12 +33,9 @@ export default class Home extends Component {
     console.log("Button pressed");
     this.setState({
       data: this.state.data.concat({ text: this.state.text }),
-      btnEnabled: false
+      btnDisabled: true
     });
 
-    {
-      /* Send request, fetch response, Push response to data array*/
-    }
     this.setState({
       data: this.state.data.concat({
         text: GetRes.getResponse(this.state.text),
@@ -46,7 +43,7 @@ export default class Home extends Component {
       })
     });
 
-    this.setState({ text: "", btnEnabled: true });
+    this.setState({ text: "", btnDisabled: false });
   };
 
   render() {
