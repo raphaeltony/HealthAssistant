@@ -30,7 +30,6 @@ export default class Home extends Component {
   }
 
   handleQuery = () => {
-    console.log("Button pressed");
     this.setState({
       data: this.state.data.concat({ text: this.state.text }),
       btnDisabled: true
@@ -89,8 +88,6 @@ export default class Home extends Component {
         Input: text
       })
       .then(response => {
-        console.log(response.data.Response);
-
         this.setState({
           data: this.state.data.concat({
             text: response.data.Response,
@@ -99,7 +96,6 @@ export default class Home extends Component {
         });
       })
       .catch(function(error) {
-        console.log(error);
         {
           /*Toast.show({
         text: "Looks like you're not connected to the internet",
