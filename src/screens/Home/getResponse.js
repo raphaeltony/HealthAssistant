@@ -1,34 +1,35 @@
 import React from "react";
 import { Toast } from "native-base";
+import axios from "axios";
 
 export default class GetRes {
-  static getResponse = text => {
-    fetch("https://api.beady27.hasura-app.io/wit", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+  constructor() {
+    this.res = "";
+  }
+
+  static sendMess = (text, callback) => {
+    axios
+      .post("https://api.beady27.hasura-app.io/wit", {
         Input: text
       })
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        return responseJson.Response;
+      .then(response => {
+        console.log(response.data.Response);
+        this.res = response.data.Response;
+        callback(this.res);
       })
-
-      .catch(error => {
-        console.error(error);
+      .catch(function(error) {
+        console.log(error);
         {
           /*Toast.show({
-          text: "Looks like you're not connected to the internet",
-          position: "bottom",
-          buttonText: "Okay",
-          type: "warning",
-          duration: 4000
-        });*/
+        text: "Looks like you're not connected to the internet",
+        position: "bottom",
+        buttonText: "Okay",
+        type: "warning",
+        duration: 4000
+      });*/
         }
       });
   };
+
+  static getRes = () => this.res;
 }

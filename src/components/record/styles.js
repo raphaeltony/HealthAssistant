@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 export default class RecordStyle {
   static getSheet = (alignment = "flex-end") => {
-    let color = "#f0810f";
+    let color = "#689b25";
 
     if (alignment === "flex-start") color = "#8d230f";
     return StyleSheet.create({

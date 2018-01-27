@@ -17,7 +17,7 @@ import {
 } from "native-base";
 import Record from "../../components/record/record";
 import { FlatList, StatusBar } from "react-native";
-import GetRes from "./getResponse";
+import axios from "axios";
 
 export default class Home extends Component {
   constructor(props) {
@@ -32,13 +32,10 @@ export default class Home extends Component {
   handleQuery = () => {
     console.log("Button pressed");
     this.setState({
-      data: this.state.data.push({ text: this.state.text }),
+      data: this.state.data.concat({ text: this.state.text }),
       btnDisabled: true
     });
-
-    let resText = GetRes.getResponse(this.state.text);
-    this.setState({ data: this.state.data.concat({ text: resText }) });
-
+    this.sendMess(this.state.text);
     this.setState({ text: "", btnDisabled: false });
   };
 
@@ -46,17 +43,16 @@ export default class Home extends Component {
     return (
       <Container>
         <StatusBar transparent={false} barStyle="light-content" />
-        <Header style={{ flexDirection: "column", backgroundColor: "#063852" }}>
+        <Header style={{ flexDirection: "column", backgroundColor: "#2f738e" }}>
           <Title style={{ fontSize: 22 }}>Welcome</Title>
         </Header>
 
-        <Content padder style={{ flex: 1 }}>
+        <Content padder style={{ flex: 1, backgroundColor: "#fcf2c4" }}>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
               <Record text={item.text} align={item.align} />
             )}
-            keyExtractor={item => item.text}
           />
         </Content>
 
@@ -86,4 +82,33 @@ export default class Home extends Component {
       </Container>
     );
   }
+
+  sendMess = text => {
+    axios
+      .post("https://api.beady27.hasura-app.io/wit", {
+        Input: text
+      })
+      .then(response => {
+        console.log(response.data.Response);
+
+        this.setState({
+          data: this.state.data.concat({
+            text: response.data.Response,
+            align: "flex-start"
+          })
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+        {
+          /*Toast.show({
+        text: "Looks like you're not connected to the internet",
+        position: "bottom",
+        buttonText: "Okay",
+        type: "warning",
+        duration: 4000
+      });*/
+        }
+      });
+  };
 }
