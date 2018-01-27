@@ -13,7 +13,8 @@ import {
   Left,
   Right,
   Content,
-  Footer
+  Footer,
+  Spinner
 } from "native-base";
 import Record from "../../components/record/record";
 import { FlatList, StatusBar } from "react-native";
@@ -25,25 +26,37 @@ export default class Home extends Component {
     this.state = {
       text: "",
       data: [{ text: "Hey there!", align: "flex-start" }],
-      btnDisabled: false
+      btnDisabled: false,
+      animating: true
     };
   }
 
   handleQuery = () => {
-    this.setState({
-      data: this.state.data.concat({ text: this.state.text }),
-      btnDisabled: true
-    });
-    this.sendMess(this.state.text);
-    this.setState({ text: "", btnDisabled: false });
+    if (this.state.text !== "") {
+      this.setState({
+        data: this.state.data.concat({ text: this.state.text }),
+        btnDisabled: true,
+        animating: true
+      });
+      this.sendMess(this.state.text);
+    }
   };
 
   render() {
     return (
       <Container>
         <StatusBar transparent={false} barStyle="light-content" />
-        <Header style={{ flexDirection: "column", backgroundColor: "#2f738e" }}>
-          <Title style={{ fontSize: 22 }}>Welcome</Title>
+        <Header style={{ backgroundColor: "#2f738e" }}>
+          <Left />
+          <Body>
+            <Title style={{ fontSize: 22 }}>Health Assistant</Title>
+          </Body>
+
+          <Spinner
+            color="white"
+            animating={this.state.animating}
+            style={{ alignSelf: "center" }}
+          />
         </Header>
 
         <Content padder style={{ flex: 1, backgroundColor: "#fcf2c4" }}>
@@ -92,19 +105,19 @@ export default class Home extends Component {
           data: this.state.data.concat({
             text: response.data.Response,
             align: "flex-start"
-          })
+          }),
+          text: "",
+          btnDisabled: false,
+          animating: false
         });
       })
-      .catch(function(error) {
-        {
-          /*Toast.show({
-        text: "Looks like you're not connected to the internet",
-        position: "bottom",
-        buttonText: "Okay",
-        type: "warning",
-        duration: 4000
-      });*/
-        }
+      .catch(error => {
+        this.setState({
+          data: this.state.data.concat({
+            text: "Looks like you're not connected to the internet",
+            align: "flex-start"
+          })
+        });
       });
   };
 }
