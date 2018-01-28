@@ -26,8 +26,7 @@ export default class Home extends Component {
     this.state = {
       text: "",
       data: [{ text: "Hey there!", align: "flex-start" }],
-      btnDisabled: false,
-      animating: true
+      animating: false
     };
   }
 
@@ -35,7 +34,6 @@ export default class Home extends Component {
     if (this.state.text !== "") {
       this.setState({
         data: this.state.data.concat({ text: this.state.text }),
-        btnDisabled: true,
         animating: true
       });
       this.sendMess(this.state.text);
@@ -45,8 +43,8 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
-        <StatusBar transparent={false} barStyle="light-content" />
-        <Header style={{ backgroundColor: "#2f738e" }}>
+        <StatusBar backgroundColor="silver" barStyle="light-content" />
+        <Header style={{ backgroundColor: "#5e5d5a" }}>
           <Left />
           <Body>
             <Title style={{ fontSize: 22 }}>Health Assistant</Title>
@@ -59,7 +57,7 @@ export default class Home extends Component {
           />
         </Header>
 
-        <Content padder style={{ flex: 1, backgroundColor: "#fcf2c4" }}>
+        <Content padder style={{ flex: 1, backgroundColor: "#f0eff0" }}>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
@@ -83,11 +81,7 @@ export default class Home extends Component {
               value={this.state.text}
             />
           </Item>
-          <Button
-            transparent
-            onPress={this.handleQuery}
-            disabled={this.state.btnDisabled}
-          >
+          <Button transparent onPress={this.handleQuery}>
             <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
           </Button>
         </Footer>
@@ -107,7 +101,6 @@ export default class Home extends Component {
             align: "flex-start"
           }),
           text: "",
-          btnDisabled: false,
           animating: false
         });
       })

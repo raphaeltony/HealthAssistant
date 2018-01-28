@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 
 export default class RecordStyle {
   static getSheet = (alignment = "flex-end") => {
-    let color = "#689b25";
+    let color = "#a09f98";
 
-    if (alignment === "flex-start") color = "#8d230f";
+    if (alignment === "flex-start") color = "#e0b50b";
     return StyleSheet.create({
       record: {
         padding: 10,
