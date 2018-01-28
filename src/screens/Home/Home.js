@@ -43,7 +43,7 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor="silver" barStyle="light-content" />
+        <StatusBar hidden barStyle="light-content" />
         <Header style={{ backgroundColor: "#5e5d5a" }}>
           <Left />
           <Body>
