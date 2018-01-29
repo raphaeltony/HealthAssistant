@@ -1,6 +1,6 @@
 # Health Assistant App
 
-![alt text](/screenshot.png width="376" height="668")
+![alt text](/screenshot.png)
 
 An app which, when asked a query regarding an illness, will reply with its corresponding medicines. 
 The app is built like a chat in which you one can converse with the 'assistant'.
