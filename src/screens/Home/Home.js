@@ -102,9 +102,10 @@ export default class Home extends Component {
         });
       })
       .catch(error => {
+        console.log(error);
         this.setState({
           data: this.state.data.concat({
-            text: "Looks like you're not connected to the internet",
+            text: "Something went wrong",
             align: "flex-start"
           })
         });
