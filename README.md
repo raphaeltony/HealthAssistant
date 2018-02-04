@@ -10,10 +10,6 @@ It is built on Windows machine hence supports Android as of now
 ## Pre-requisites
 - You will need Node, the React Native command line interface, Python2, a JDK, and Android Studio. If you haven't installed these, follow the steps in the "Build Projects with Native Code" tab of :
 https://facebook.github.io/react-native/docs/getting-started.html
-- Install axios which will be used for making post requests
-```
-npm install axios
-```
 
 ## Cloning the repository
 - Run the following commands (Gitbash or some other linux-based terminal) :
@@ -21,6 +17,10 @@ npm install axios
 git clone https://github.com/raphaeltony/HealthAssistant.git
 cd HealthAssistant
 npm install
+```
+- Install axios which will be used for making post requests
+```
+npm install axios
 ```
 ## Running the app on a device 
 - Start your android emulator or connect your android phone via USB with USB Debugging enabled
@@ -32,5 +32,14 @@ react-native run-android
 
 ## APK
 Here's the link to the app APK : https://drive.google.com/file/d/19t66KBXK6pZ79W_zu1aYEFE0VdjSkIcZ/view?usp=sharing
+
+## Using the app
+- Type in your query and press the medkit button to send it to the bot.
+- Examples of queries include :
+```
+Medicine for cold
+What does aspirin cure ?
+```
+#### NOTE : We are constantly updating the database of illnesses and its corresponding medicines
 
 Cheers ! 
