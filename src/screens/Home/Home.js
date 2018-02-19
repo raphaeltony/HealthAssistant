@@ -15,6 +15,9 @@ import {
 } from "native-base";
 import { StatusBar } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
+import MessageText from "../../components/MessageText";
+import Bubble from "../../components/Bubble";
+import InputToolbar from "../../components/InputToolbar";
 import axios from "axios";
 
 export default class Home extends Component {
@@ -36,22 +39,36 @@ export default class Home extends Component {
   }
 
   handleQuery = messages => {
-    this.setState({
-      id: this.state.id + 1,
-      data: GiftedChat.append(this.state.data, messages)
+    this.setState(previousState => {
+      return {
+        id: previousState.id + 1,
+        data: GiftedChat.append(previousState.data, messages)
+      };
     });
     this.sendMess(messages);
   };
 
   render() {
     return (
-      <GiftedChat
-        messages={this.state.data}
-        onSend={messages => this.handleQuery(messages)}
-        user={{
-          _id: 2
-        }}
-      />
+      <Container>
+        <Header style={{ backgroundColor: "#5e5d5a" }}>
+          <Left />
+          <Body>
+            <Title style={{ fontSize: 22 }}>Health Assistant</Title>
+          </Body>
+        </Header>
+        <GiftedChat
+          messages={this.state.data}
+          onSend={messages => this.handleQuery(messages)}
+          user={{
+            _id: 2
+          }}
+          minInputToolbarHeight={60}
+          renderMessageText={this.renderMessageText}
+          renderBubble={this.renderBubble}
+          renderInputToolbar={this.renderInputToolbar}
+        />
+      </Container>
     );
   }
 
@@ -61,31 +78,45 @@ export default class Home extends Component {
         Input: messages["0"].text
       })
       .then(response => {
-        this.setState({
-          id: this.state.id + 1,
-          data: GiftedChat.append(this.state.data, {
-            _id: this.state.id,
-            text: response.data.Response,
-            createdAt: new Date(),
-            user: {
-              _id: 1
-            }
-          })
+        this.setState(previousState => {
+          return {
+            id: previousState.id + 1,
+            data: GiftedChat.append(previousState.data, {
+              _id: this.state.id,
+              text: response.data.Response,
+              createdAt: new Date(),
+              user: {
+                _id: 1
+              }
+            })
+          };
         });
       })
       .catch(error => {
         console.log(error);
-        this.setState({
-          id: this.state.id + 1,
-          data: GiftedChat.append(this.state.data, {
-            _id: this.state.id,
-            text: "Something went wrong",
-            createdAt: new Date(),
-            user: {
-              _id: 1
-            }
-          })
+        this.setState(previousState => {
+          return {
+            id: this.state.id + 1,
+            data: GiftedChat.append(this.state.data, {
+              _id: this.state.id,
+              text: "Something went wrong",
+              createdAt: new Date(),
+              user: {
+                _id: 1
+              }
+            })
+          };
         });
       });
   };
+
+  renderMessageText(props) {
+    return <MessageText {...props} />;
+  }
+  renderBubble(props) {
+    return <Bubble {...props} />;
+  }
+  renderInputToolbar(props) {
+    return <InputToolbar {...props} />;
+  }
 }
