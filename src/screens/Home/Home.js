@@ -14,99 +14,77 @@ import {
   Spinner
 } from "native-base";
 import Record from "../../components/record/record";
-import { FlatList, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
+import { GiftedChat } from "react-native-gifted-chat";
 import axios from "axios";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "",
-      data: [{ text: "Hey there!", align: "flex-start" }],
-      animating: false
+      id: 1,
+      data: [
+        {
+          _id: 1,
+          text: "Hey There",
+          createdAt: new Date(),
+          user: {
+            _id: 1
+          }
+        }
+      ]
     };
   }
 
-  handleQuery = () => {
-    if (this.state.text !== "") {
-      this.setState({
-        data: this.state.data.concat({ text: this.state.text }),
-        animating: true
-      });
-      this.sendMess(this.state.text);
-    }
+  handleQuery = messages => {
+    this.setState({
+      id: this.state.id + 1,
+      data: GiftedChat.append(this.state.data, messages)
+    });
+    this.sendMess(messages);
   };
 
   render() {
     return (
-      <Container>
-        <StatusBar hidden barStyle="light-content" />
-        <Header style={{ backgroundColor: "#5e5d5a" }}>
-          <Left />
-          <Body>
-            <Title style={{ fontSize: 22 }}>Health Assistant</Title>
-          </Body>
-
-          <Spinner
-            color="white"
-            animating={this.state.animating}
-            style={{ alignSelf: "center" }}
-          />
-        </Header>
-
-        <Content padder style={{ flex: 1, backgroundColor: "#f0eff0" }}>
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => (
-              <Record text={item.text} align={item.align} />
-            )}
-          />
-        </Content>
-
-        <Footer
-          style={{
-            flexDirection: "row",
-            height: 60,
-            padding: 5,
-            backgroundColor: "white"
-          }}
-        >
-          <Item style={{ flex: 1 }}>
-            <Input
-              placeholder="How are you today ?"
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
-            />
-          </Item>
-          <Button transparent onPress={this.handleQuery}>
-            <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
-          </Button>
-        </Footer>
-      </Container>
+      <GiftedChat
+        messages={this.state.data}
+        onSend={messages => this.handleQuery(messages)}
+        user={{
+          _id: 2
+        }}
+      />
     );
   }
 
-  sendMess = text => {
+  sendMess = messages => {
     axios
       .post("https://api.beady27.hasura-app.io/wit", {
-        Input: text
+        Input: messages["0"].text
       })
       .then(response => {
         this.setState({
-          data: this.state.data.concat({
+          id: this.state.id + 1,
+          data: GiftedChat.append(this.state.data, {
+            _id: this.state.id,
             text: response.data.Response,
-            align: "flex-start"
-          }),
-          text: "",
-          animating: false
+            createdAt: new Date(),
+            user: {
+              _id: 1
+            }
+          })
         });
       })
       .catch(error => {
         console.log(error);
         this.setState({
-          data: this.state.data.concat({
+          id: this.state.id + 1,
+          data: GiftedChat.append(this.state.data, {
+            _id: this.state.id,
             text: "Something went wrong",
-            align: "flex-start"
+            createdAt: new Date(),
+            user: {
+              _id: 1
+            }
           })
         });
       });
