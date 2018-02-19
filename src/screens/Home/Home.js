@@ -13,7 +13,6 @@ import {
   Footer,
   Spinner
 } from "native-base";
-import Record from "../../components/record/record";
 import { StatusBar } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import axios from "axios";
