@@ -38,6 +38,7 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
+        <StatusBar hidden barStyle="light-content" />
         <Header style={{ backgroundColor: "#5e5d5a" }}>
           <Title style={{ fontSize: 22, alignSelf: "center" }}>
             Health Assistant
