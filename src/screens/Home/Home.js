@@ -1,18 +1,5 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Header,
-  Body,
-  Title,
-  Item,
-  Icon,
-  Input,
-  Button,
-  Left,
-  Content,
-  Footer,
-  Spinner
-} from "native-base";
+import { Container, Header, Body, Title, Icon, Left, Right } from "native-base";
 import { StatusBar } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import MessageText from "../../components/MessageText";
@@ -52,10 +39,9 @@ export default class Home extends Component {
     return (
       <Container>
         <Header style={{ backgroundColor: "#5e5d5a" }}>
-          <Left />
-          <Body>
-            <Title style={{ fontSize: 22 }}>Health Assistant</Title>
-          </Body>
+          <Title style={{ fontSize: 22, alignSelf: "center" }}>
+            Health Assistant
+          </Title>
         </Header>
         <GiftedChat
           messages={this.state.data}
@@ -94,19 +80,35 @@ export default class Home extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.setState(previousState => {
-          return {
-            id: this.state.id + 1,
-            data: GiftedChat.append(this.state.data, {
-              _id: this.state.id,
-              text: "Something went wrong",
-              createdAt: new Date(),
-              user: {
-                _id: 1
-              }
-            })
-          };
-        });
+        if (error.response.status === 503) {
+          this.setState(previousState => {
+            return {
+              id: this.state.id + 1,
+              data: GiftedChat.append(this.state.data, {
+                _id: this.state.id,
+                text: "Just a min. I'm waking up",
+                createdAt: new Date(),
+                user: {
+                  _id: 1
+                }
+              })
+            };
+          });
+        } else {
+          this.setState(previousState => {
+            return {
+              id: this.state.id + 1,
+              data: GiftedChat.append(this.state.data, {
+                _id: this.state.id,
+                text: "Looks like you are not connected to the internet",
+                createdAt: new Date(),
+                user: {
+                  _id: 1
+                }
+              })
+            };
+          });
+        }
       });
   };
 
