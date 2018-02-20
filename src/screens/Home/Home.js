@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Container, Header, Body, Title, Icon, Left, Right } from "native-base";
 import { StatusBar } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
 import MessageText from "../../components/MessageText";
 import Bubble from "../../components/Bubble";
 import InputToolbar from "../../components/InputToolbar";
+import { GiftedChat } from "../../components/GiftedChat";
 import axios from "axios";
 
 export default class Home extends Component {
