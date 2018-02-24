@@ -1,40 +1,38 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Header,
-  Body,
-  Title,
-  Item,
-  Icon,
-  Input,
-  Button,
-  Left,
-  Content,
-  Footer,
-  Spinner
-} from "native-base";
-import Record from "../../components/record/record";
-import { FlatList, StatusBar } from "react-native";
+import { Container, Header, Body, Title, Icon, Left, Right } from "native-base";
+import { StatusBar, NetInfo } from "react-native";
+import MessageText from "../../components/MessageText";
+import Bubble from "../../components/Bubble";
+import InputToolbar from "../../components/InputToolbar";
+import { GiftedChat } from "../../components/GiftedChat";
 import axios from "axios";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "",
-      data: [{ text: "Hey there!", align: "flex-start" }],
-      animating: false
+      id: 1,
+      data: [
+        {
+          _id: 1,
+          text: "Hey There",
+          createdAt: new Date(),
+          user: {
+            _id: 1
+          }
+        }
+      ]
     };
   }
 
-  handleQuery = () => {
-    if (this.state.text !== "") {
-      this.setState({
-        data: this.state.data.concat({ text: this.state.text }),
-        animating: true
-      });
-      this.sendMess(this.state.text);
-    }
+  handleQuery = messages => {
+    this.setState(previousState => {
+      return {
+        id: previousState.id + 1,
+        data: GiftedChat.append(previousState.data, messages)
+      };
+    });
+    this.sendMess(messages);
   };
 
   render() {
@@ -42,73 +40,91 @@ export default class Home extends Component {
       <Container>
         <StatusBar hidden barStyle="light-content" />
         <Header style={{ backgroundColor: "#5e5d5a" }}>
-          <Left />
-          <Body>
-            <Title style={{ fontSize: 22 }}>Health Assistant</Title>
-          </Body>
-
-          <Spinner
-            color="white"
-            animating={this.state.animating}
-            style={{ alignSelf: "center" }}
-          />
+          <Title style={{ fontSize: 22, alignSelf: "center" }}>
+            Health Assistant
+          </Title>
         </Header>
-
-        <Content padder style={{ flex: 1, backgroundColor: "#f0eff0" }}>
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => (
-              <Record text={item.text} align={item.align} />
-            )}
-          />
-        </Content>
-
-        <Footer
-          style={{
-            flexDirection: "row",
-            height: 60,
-            padding: 5,
-            backgroundColor: "white"
+        <GiftedChat
+          messages={this.state.data}
+          onSend={messages => this.handleQuery(messages)}
+          user={{
+            _id: 2
           }}
-        >
-          <Item style={{ flex: 1 }}>
-            <Input
-              placeholder="How are you today ?"
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
-            />
-          </Item>
-          <Button transparent onPress={this.handleQuery}>
-            <Icon name="medkit" style={{ fontSize: 32, color: "red" }} />
-          </Button>
-        </Footer>
+          minInputToolbarHeight={60}
+          renderMessageText={this.renderMessageText}
+          renderBubble={this.renderBubble}
+          renderInputToolbar={this.renderInputToolbar}
+        />
       </Container>
     );
   }
 
-  sendMess = text => {
-    axios
-      .post("https://api.beady27.hasura-app.io/wit", {
-        Input: text
-      })
-      .then(response => {
-        this.setState({
-          data: this.state.data.concat({
-            text: response.data.Response,
-            align: "flex-start"
-          }),
-          text: "",
-          animating: false
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({
-          data: this.state.data.concat({
-            text: "Something went wrong",
-            align: "flex-start"
+  sendMess = messages => {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if (isConnected) {
+        console.log("Internet is connected");
+        axios
+          .post("https://api.beady27.hasura-app.io/wit", {
+            Input: messages["0"].text
           })
+          .then(response => {
+            this.setState(previousState => {
+              return {
+                id: previousState.id + 1,
+                data: GiftedChat.append(previousState.data, {
+                  _id: this.state.id,
+                  text: response.data.Response,
+                  createdAt: new Date(),
+                  user: {
+                    _id: 1
+                  }
+                })
+              };
+            });
+          })
+          .catch(error => {
+            console.log(error);
+            if (error.response.status >= 500) {
+              this.setState(previousState => {
+                return {
+                  id: this.state.id + 1,
+                  data: GiftedChat.append(this.state.data, {
+                    _id: this.state.id,
+                    text: "Something went wrong in the backend. Sorry !",
+                    createdAt: new Date(),
+                    user: {
+                      _id: 1
+                    }
+                  })
+                };
+              });
+            }
+          });
+      } else {
+        this.setState(previousState => {
+          return {
+            id: this.state.id + 1,
+            data: GiftedChat.append(this.state.data, {
+              _id: this.state.id,
+              text: "Looks like you're not connected to the internet",
+              createdAt: new Date(),
+              user: {
+                _id: 1
+              }
+            })
+          };
         });
-      });
+      }
+    });
   };
+
+  renderMessageText(props) {
+    return <MessageText {...props} />;
+  }
+  renderBubble(props) {
+    return <Bubble {...props} />;
+  }
+  renderInputToolbar(props) {
+    return <InputToolbar {...props} />;
+  }
 }

@@ -1,4 +1,4 @@
-# Health Assistant App
+# Health Assistant App (v2)
 
 ![alt text](/screenshot.png)
 
