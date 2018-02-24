@@ -40,7 +40,7 @@ Here's the link to the app APK : https://drive.google.com/file/d/1AOpnieHFXIahlo
 Medicine for cold
 What does aspirin cure ?
 Indigestion medicine
-Acne cure
+Cure for acne
 ```
 #### NOTE : We are constantly updating the database of illnesses and its corresponding medicines
 
