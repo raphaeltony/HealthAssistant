@@ -1,14 +1,11 @@
-# Health Assistant App (v2)
+# Health Assistant App
 
 ![alt text](/screenshot.png)
 
 An app which, when asked a query regarding an illness, will reply with its corresponding medicines. 
 The app is built like a chat in which you one can converse with the 'assistant'.
 This tutorial focuses only on the frontend part ie. building only the app and not setting up the backend server. 
-It is built on Windows machine hence supports Android as of now.
-
-### NOTE : 
-I've made a version 2 of the app using React Native Gifted Chat. Check it out by changing the branch
+It is built on Windows machine hence supports Android as of now
 
 ## Pre-requisites
 - You will need Node, the React Native command line interface, Python2, a JDK, and Android Studio. If you haven't installed these, follow the steps in the "Build Projects with Native Code" tab of :
@@ -42,6 +39,8 @@ Here's the link to the app APK : https://drive.google.com/file/d/19t66KBXK6pZ79W
 ```
 Medicine for cold
 What does aspirin cure ?
+Indigestion medicine
+Acne cure
 ```
 #### NOTE : We are constantly updating the database of illnesses and its corresponding medicines
 
