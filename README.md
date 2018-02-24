@@ -31,7 +31,7 @@ react-native run-android
 - This will build and run the app on your emulator or device
 
 ## APK
-Here's the link to the app APK : https://drive.google.com/file/d/19t66KBXK6pZ79W_zu1aYEFE0VdjSkIcZ/view?usp=sharing
+Here's the link to the app APK : https://drive.google.com/file/d/1AOpnieHFXIahlopD5PmngGyUtoOzdqmu/view?usp=sharing
 
 ## Using the app
 - Type in your query and press the medkit button to send it to the bot.
