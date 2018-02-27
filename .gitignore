@@ -32,7 +32,6 @@ build/
 .gradle
 local.properties
 *.iml
-/android/
 
 # Gradle
 /build/
@@ -79,3 +78,5 @@ buck-out
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+android/gradle.properties
+android/app/build.gradle
